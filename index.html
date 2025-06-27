@@ -1,219 +1,586 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Fiche de Commande - Kermesse École</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: #fdf6e3;
-      padding: 20px;
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-      color: #d35400;
-    }
-    .form-section {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px #ccc;
-    }
-    .form-section h2 {
-      color: #2980b9;
-    }
-    .item-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 10px 0;
-    }
-    .item-row span {
-      flex: 1;
-    }
-    .item-controls {
-      display: flex;
-      align-items: center;
-    }
-    .item-controls button {
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
-      margin: 0 5px;
-    }
-    .total-section {
-      background: #2ecc71;
-      color: white;
-      padding: 15px;
-      font-size: 18px;
-      text-align: center;
-      border-radius: 10px;
-    }
-    .submit-btn {
-      background: linear-gradient(to right, #f39c12, #f1c40f);
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      display: block;
-      margin: 20px auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restauration - Fiche de Commande</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .order-number {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .form-content {
+            padding: 30px;
+        }
+        
+        .customer-info {
+            margin-bottom: 30px;
+        }
+        
+        .customer-info h3 {
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ff6b6b;
+            padding-bottom: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+        
+        .menu-section {
+            margin-bottom: 20px;
+        }
+        
+        .menu-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ff6b6b;
+            padding-bottom: 5px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover {
+            background: #e9ecef;
+            border-color: #ff6b6b;
+            transform: translateY(-2px);
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .item-price {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .qty-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .qty-btn:hover {
+            background: #ff5252;
+            transform: scale(1.1);
+        }
+        
+        .qty-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .qty-display {
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .total-section {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .total-amount {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .order-summary {
+            display: none;
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px solid #4CAF50;
+        }
+        
+        .order-summary h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        .order-summary .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid #c8e6c9;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #856404;
+        }
+    </style>
 </head>
 <body>
-  <h1>RESTAURATION</h1>
-  <div class="form-section">
-    <h2>Fiche de Commande - Kermesse École</h2>
-    <form id="orderForm">
-      <p>Commande N° <span id="orderNumber">001</span></p>
-      <label>Nom et Prénom *: <input type="text" id="name" required></label>
-
-      <div class="form-section">
-        <h2>Accompagnements</h2>
-        <div class="item-row">
-          <span>Frites (3€)</span>
-          <div class="item-controls">
-            <button type="button" onclick="updateQty('Frites', -1)">-</button>
-            <span id="qty-Frites">0</span>
-            <button type="button" onclick="updateQty('Frites', 1)">+</button>
-          </div>
+    <div class="container">
+        <div class="header">
+            <h1>RESTAURATION</h1>
+            <div class="subtitle">Fiche de Commande - Kermesse École</div>
         </div>
-        <div class="item-row">
-          <span>Chips (1€)</span>
-          <div class="item-controls">
-            <button type="button" onclick="updateQty('Chips', -1)">-</button>
-            <span id="qty-Chips">0</span>
-            <button type="button" onclick="updateQty('Chips', 1)">+</button>
-          </div>
+        
+        <div class="order-number">
+            Commande N° <span id="orderNumber">001</span>
         </div>
-        <div class="item-row">
-          <span>Tomates Cerises (2€)</span>
-          <div class="item-controls">
-            <button type="button" onclick="updateQty('Tomates Cerises', -1)">-</button>
-            <span id="qty-Tomates Cerises">0</span>
-            <button type="button" onclick="updateQty('Tomates Cerises', 1)">+</button>
-          </div>
+        
+        <div class="form-content">
+            <div class="customer-info">
+                <h3>Informations Client</h3>
+                <div class="form-group">
+                    <label for="customerName">Nom et Prénom *</label>
+                    <input type="text" id="customerName" required>
+                </div>
+
+            </div>
+            
+            <div class="menu-section">
+                <h3>Accompagnements</h3>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Frites (sauce comprise)</div>
+                        <div class="item-price">3€ - 6 tickets</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQuantity('frites', -1)">-</button>
+                            <span class="qty-display" id="qty-frites">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('frites', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Chips</div>
+                        <div class="item-price">1€ - 2 tickets</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQuantity('chips', -1)">-</button>
+                            <span class="qty-display" id="qty-chips">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('chips', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Tomates Cerises</div>
+                        <div class="item-price">2€ - 4 tickets</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQuantity('tomates', -1)">-</button>
+                            <span class="qty-display" id="qty-tomates">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('tomates', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h3>Sandwiches Baguette</h3>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Fromage</div>
+                        <div class="item-price">3€ - 6 tickets</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQuantity('fromage', -1)">-</button>
+                            <span class="qty-display" id="qty-fromage">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('fromage', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Jambon</div>
+                        <div class="item-price">3€ - 6 tickets</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQuantity('jambon', -1)">-</button>
+                            <span class="qty-display" id="qty-jambon">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('jambon', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Saucisse</div>
+                        <div class="item-price">3€ - 6 tickets</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQuantity('saucisse', -1)">-</button>
+                            <span class="qty-display" id="qty-saucisse">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('saucisse', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Merguez</div>
+                        <div class="item-price">3€ - 6 tickets</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQuantity('merguez', -1)">-</button>
+                            <span class="qty-display" id="qty-merguez">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('merguez', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Filet Américain</div>
+                        <div class="item-price">3€ - 6 tickets</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQuantity('americain', -1)">-</button>
+                            <span class="qty-display" id="qty-americain">0</span>
+                            <button class="qty-btn" onclick="changeQuantity('americain', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="total-section">
+                <div>TOTAL À PAYER</div>
+                <div class="total-amount" id="totalAmount">0,00 €</div>
+                <div>Tickets: <span id="totalTickets">0</span></div>
+            </div>
+            
+            <button class="submit-btn" onclick="submitOrder()" id="submitBtn" disabled>
+                Valider la Commande
+            </button>
+            
+            <div class="order-summary" id="orderSummary">
+                <h3>✅ Commande Validée !</h3>
+                <div id="summaryContent"></div>
+                <div style="text-align: center; margin-top: 15px; font-weight: bold; color: #2e7d32;">
+                    Présentez-vous au stand avec ce numéro : <span id="finalOrderNumber"></span>
+                </div>
+            </div>
+            
+            <div class="note">
+                <strong>📋 Instructions :</strong><br>
+                Merci de ne pas jeter cette feuille et de la rendre au stand car elle sera recyclée !
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div class="form-section">
-        <h2>Sandwiches Baguette</h2>
-        <div class="item-row">
-          <span>Fromage (3€)</span>
-          <div class="item-controls">
-            <button type="button" onclick="updateQty('Sandwich Fromage', -1)">-</button>
-            <span id="qty-Sandwich Fromage">0</span>
-            <button type="button" onclick="updateQty('Sandwich Fromage', 1)">+</button>
-          </div>
-        </div>
-        <div class="item-row">
-          <span>Jambon (3€)</span>
-          <div class="item-controls">
-            <button type="button" onclick="updateQty('Sandwich Jambon', -1)">-</button>
-            <span id="qty-Sandwich Jambon">0</span>
-            <button type="button" onclick="updateQty('Sandwich Jambon', 1)">+</button>
-          </div>
-        </div>
-        <div class="item-row">
-          <span>Saucisse (3€)</span>
-          <div class="item-controls">
-            <button type="button" onclick="updateQty('Sandwich Saucisse', -1)">-</button>
-            <span id="qty-Sandwich Saucisse">0</span>
-            <button type="button" onclick="updateQty('Sandwich Saucisse', 1)">+</button>
-          </div>
-        </div>
-        <div class="item-row">
-          <span>Merguez (3€)</span>
-          <div class="item-controls">
-            <button type="button" onclick="updateQty('Sandwich Merguez', -1)">-</button>
-            <span id="qty-Sandwich Merguez">0</span>
-            <button type="button" onclick="updateQty('Sandwich Merguez', 1)">+</button>
-          </div>
-        </div>
-        <div class="item-row">
-          <span>Filet Américain (3€)</span>
-          <div class="item-controls">
-            <button type="button" onclick="updateQty('Sandwich Filet Américain', -1)">-</button>
-            <span id="qty-Sandwich Filet Américain">0</span>
-            <button type="button" onclick="updateQty('Sandwich Filet Américain', 1)">+</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="total-section">
-        TOTAL À PAYER : <span id="totalPrice">0,00 €</span>
-      </div>
-
-      <button type="submit" class="submit-btn">VALIDER LA COMMANDE</button>
-    </form>
-  </div>
-
-  <script>
-    const prices = {
-      "Frites": 3,
-      "Chips": 1,
-      "Tomates Cerises": 2,
-      "Sandwich Fromage": 3,
-      "Sandwich Jambon": 3,
-      "Sandwich Saucisse": 3,
-      "Sandwich Merguez": 3,
-      "Sandwich Filet Américain": 3
-    };
-
-    let orderCounter = 1;
-
-    function updateQty(item, delta) {
-      const qtySpan = document.getElementById('qty-' + item);
-      let qty = parseInt(qtySpan.textContent);
-      qty = Math.max(0, qty + delta);
-      qtySpan.textContent = qty;
-      updateTotal();
-    }
-
-    function updateTotal() {
-      let total = 0;
-      for (const item in prices) {
-        const qty = parseInt(document.getElementById('qty-' + item).textContent);
-        total += qty * prices[item];
-      }
-      document.getElementById('totalPrice').textContent = total.toFixed(2) + ' €';
-    }
-
-    document.getElementById('orderForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const items = [];
-
-      for (const item in prices) {
-        const qty = parseInt(document.getElementById('qty-' + item).textContent);
-        if (qty > 0) {
-          items.push({ name: item, quantity: qty, price: prices[item] });
+    <script>
+        const menuItems = {
+            frites: { price: 3, tickets: 6, name: 'Frites (sauce comprise)' },
+            chips: { price: 1, tickets: 2, name: 'Chips' },
+            tomates: { price: 2, tickets: 4, name: 'Tomates Cerises' },
+            fromage: { price: 3, tickets: 6, name: 'Sandwich Fromage' },
+            jambon: { price: 3, tickets: 6, name: 'Sandwich Jambon' },
+            saucisse: { price: 3, tickets: 6, name: 'Sandwich Saucisse' },
+            merguez: { price: 3, tickets: 6, name: 'Sandwich Merguez' },
+            americain: { price: 3, tickets: 6, name: 'Sandwich Filet Américain' }
+        };
+        
+        let quantities = {};
+        let orderCounter = parseInt(localStorage.getItem('orderCounter') || '0') + 1;
+        
+        // Initialiser les quantités
+        Object.keys(menuItems).forEach(item => {
+            quantities[item] = 0;
+        });
+        
+        // Définir le numéro de commande
+        document.getElementById('orderNumber').textContent = orderCounter.toString().padStart(3, '0');
+        
+        function changeQuantity(item, change) {
+            quantities[item] = Math.max(0, quantities[item] + change);
+            document.getElementById(`qty-${item}`).textContent = quantities[item];
+            
+            // Désactiver le bouton moins si quantité = 0
+            const minusBtn = document.querySelector(`[onclick="changeQuantity('${item}', -1)"]`);
+            minusBtn.disabled = quantities[item] === 0;
+            
+            updateTotal();
         }
-      }
-
-      const response = await fetch('https://script.google.com/macros/s/AKfycbyLZhJOpsMNLVgdBnDAciz13VNCaC0lkk9gex7pwyHeA0T6da8H3jjniPZhFMKh_kia/exec', {
-        method: 'POST',
-        body: JSON.stringify({ name, items }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      const result = await response.json();
-      alert(`Commande envoyée ! Numéro : ${result.orderNumber}`);
-
-      // Reset form
-      document.getElementById('name').value = '';
-      for (const item in prices) {
-        document.getElementById('qty-' + item).textContent = '0';
-      }
-      updateTotal();
-      orderCounter++;
-      document.getElementById('orderNumber').textContent = String(orderCounter).padStart(3, '0');
-    });
-  </script>
+        
+        function updateTotal() {
+            let totalPrice = 0;
+            let totalTickets = 0;
+            
+            Object.keys(quantities).forEach(item => {
+                const qty = quantities[item];
+                if (qty > 0) {
+                    totalPrice += qty * menuItems[item].price;
+                    totalTickets += qty * menuItems[item].tickets;
+                }
+            });
+            
+            document.getElementById('totalAmount').textContent = `${totalPrice.toFixed(2).replace('.', ',')} €`;
+            document.getElementById('totalTickets').textContent = totalTickets;
+            
+            // Activer/désactiver le bouton de soumission
+            const hasItems = totalPrice > 0;
+            const hasName = document.getElementById('customerName').value.trim() !== '';
+            document.getElementById('submitBtn').disabled = !(hasItems && hasName);
+        }
+        
+        async function submitOrder() {
+            const customerName = document.getElementById('customerName').value.trim();
+            
+            if (!customerName) {
+                alert('Veuillez saisir votre nom et prénom');
+                return;
+            }
+            
+            // Désactiver le bouton pendant l'envoi
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+            
+            try {
+                // Préparer les données pour Google Sheets
+                const items = [];
+                let totalPrice = 0;
+                let totalTickets = 0;
+                
+                Object.keys(quantities).forEach(item => {
+                    const qty = quantities[item];
+                    if (qty > 0) {
+                        items.push({
+                            name: menuItems[item].name,
+                            quantity: qty
+                        });
+                        totalPrice += qty * menuItems[item].price;
+                        totalTickets += qty * menuItems[item].tickets;
+                    }
+                });
+                
+                const orderData = {
+                    orderNumber: orderCounter.toString().padStart(3, '0'),
+                    customerName: customerName,
+                    items: items
+                };
+                
+                // URL de votre Google Apps Script
+                const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8SAdRK1xLJBDhe8rPX5pInxE6MP1g5LrscRBmjIvmvGfGMFCK7pTZTxJUR9JuiIyn/exec';
+                
+                // Envoyer à Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.message || 'Erreur lors de l\'envoi');
+                }
+                
+                // Créer le résumé de commande
+                let summaryHTML = `<div class="summary-item"><strong>Client:</strong> ${customerName}</div>`;
+                summaryHTML += '<hr style="margin: 15px 0;">';
+                
+                items.forEach(item => {
+                    const menuItem = Object.values(menuItems).find(m => m.name === item.name);
+                    const itemTotal = item.quantity * menuItem.price;
+                    
+                    summaryHTML += `
+                        <div class="summary-item">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>${itemTotal.toFixed(2)}€</span>
+                        </div>`;
+                });
+                
+                summaryHTML += '<hr style="margin: 15px 0;">';
+                summaryHTML += `<div class="summary-item"><strong>TOTAL: ${totalPrice.toFixed(2).replace('.', ',')}€ (${totalTickets} tickets)</strong></div>`;
+                
+                // Ajouter un message de confirmation d'envoi
+                summaryHTML += '<div style="background: #d4edda; padding: 10px; border-radius: 5px; margin-top: 15px; color: #155724; border: 1px solid #c3e6cb;">✅ <strong>Commande envoyée à la cuisine !</strong></div>';
+                
+                document.getElementById('summaryContent').innerHTML = summaryHTML;
+                document.getElementById('finalOrderNumber').textContent = orderCounter.toString().padStart(3, '0');
+                document.getElementById('orderSummary').style.display = 'block';
+                
+                // Sauvegarder le compteur de commandes
+                orderCounter++;
+                localStorage.setItem('orderCounter', orderCounter.toString());
+                
+                // Cacher le bouton
+                submitBtn.style.display = 'none';
+                
+                // Faire défiler vers le résumé
+                document.getElementById('orderSummary').scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                alert('Erreur lors de l\'envoi de la commande: ' + error.message + '\nLa commande sera tout de même enregistrée localement.');
+                console.error('Erreur:', error);
+                
+                // Réactiver le bouton en cas d'erreur
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        }
+        
+        // Écouter les changements dans le champ nom pour activer/désactiver le bouton
+        document.getElementById('customerName').addEventListener('input', updateTotal);
+        
+        // Initialiser l'affichage
+        updateTotal();
+    </script>
 </body>
 </html>
